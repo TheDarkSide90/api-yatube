@@ -24,3 +24,9 @@ python -m venv env
 ```bash
 cd yatube_api
 ```
+
+Запустить проект:
+
+```bash
+python manage.py runserver
+```
