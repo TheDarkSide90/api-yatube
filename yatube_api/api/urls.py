@@ -1,4 +1,3 @@
-from django.contrib import admin
 from django.urls import include, path
 
 from api.views import CommentViewSet, GroupViewSet, PostViewSet
@@ -12,7 +11,6 @@ router.register('groups', GroupViewSet)
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('v1/api-token-auth/', views.obtain_auth_token),
     path('v1/', include(router.urls)),
     path(

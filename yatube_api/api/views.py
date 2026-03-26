@@ -1,6 +1,5 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import permissions, viewsets
-from rest_framework.exceptions import PermissionDenied
 
 from posts.models import Comment, Group, Post
 from .permissions import IsOwnerOrReadOnly
@@ -26,6 +25,10 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
 
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
+    permission_classes = [
+        permissions.IsAuthenticated,
+        IsOwnerOrReadOnly
+    ]
 
     def get_post(self):
         return get_object_or_404(Post, id=self.kwargs.get('post_id'))
@@ -41,14 +44,3 @@ class CommentViewSet(viewsets.ModelViewSet):
             author=self.request.user,
             post=post
         )
-
-    def perform_update(self, serializer):
-        instance = self.get_object()
-        if instance.author != self.request.user:
-            raise PermissionDenied('Изменение чужого контента запрещено!')
-        serializer.save()
-
-    def perform_destroy(self, instance):
-        if instance.author != self.request.user:
-            raise PermissionDenied('Удаление чужого контента запрещено!')
-        instance.delete()
