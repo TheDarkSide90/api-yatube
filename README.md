@@ -30,3 +30,12 @@ cd yatube_api
 ```bash
 python manage.py runserver
 ```
+
+Пример запроса:
+
+```
+http://127.0.0.1:8000/api/v1/posts/
+{
+    "text": "Пост зарегистрированного пользователя."
+}
+```
